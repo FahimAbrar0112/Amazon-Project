@@ -116,7 +116,7 @@ products.forEach((product) => {
 });
 
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
-
+updateCartQuantity();
 
 // Hide the message after 2 seconds
 
@@ -160,7 +160,7 @@ function handleAddedToCartTimeOut(Time_productId) {
 }
 
 
-function updateCartQuantity() {
+export function updateCartQuantity() {
   let cartQuantity = 0;
   cart.forEach((cartItem) => {
 
