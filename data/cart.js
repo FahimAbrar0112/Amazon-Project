@@ -28,18 +28,18 @@ export function addToCart(productId) {
 
 
     //Quantity Selector:
-
+    
     const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
     const quantity = Number(quantitySelector.value);
 
     // console.log("Q: ",quantitySelector);
     // console.log("val: ",quantity);
-
+    
     //
 
 
     if (matchingItem) {
-        matchingItem.quantity += quantity;
+        matchingItem.quantity+=quantity;
     }
     else {
         cart.push({

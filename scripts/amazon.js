@@ -1,6 +1,7 @@
 import { cart, addToCart } from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
+
 // const products = [
 //     {
 //         image: "images/products/athletic-cotton-socks-6-pairs.jpg",
@@ -102,7 +103,7 @@ products.forEach((product) => {
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
+          <div class="added-to-cart js-added-to-cart-${product.id}">
             <img src="images/icons/checkmark.png" />
             Added
           </div>
@@ -116,6 +117,49 @@ products.forEach((product) => {
 
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
+
+// Hide the message after 2 seconds
+
+// We're going to use an object to save the timeout ids.
+// The reason we use an object is because each product
+// will have its own timeoutId. So an object lets us
+// save multiple timeout ids for different products.
+// For example:
+// {
+//   'product-id1': 2,
+//   'product-id2': 5,
+//   ...
+// }
+// (2 and 5 are ids that are returned when we call setTimeout).
+
+const addedMessageTimeouts = {};
+
+function handleAddedToCartTimeOut(Time_productId) {
+
+  //MSG SHOWING ADDED to CART:
+  const addedMessage = document.querySelector(`.js-added-to-cart-${Time_productId}`);
+  addedMessage.classList.add('added-to-cart-visible');
+
+
+  // Check if there's a previous timeout for this product. If there is, we should stop it.
+
+
+  const previousTimeoutId = addedMessageTimeouts[Time_productId];
+
+  if (previousTimeoutId) {
+    clearTimeout(previousTimeoutId);
+  }
+
+  const timeoutId = setTimeout(() => {
+    addedMessage.classList.remove('added-to-cart-visible');
+  }, 2000);
+
+  // Save the timeoutId for this product
+  // so we can stop it later if we need to.
+  addedMessageTimeouts[Time_productId] = timeoutId;
+}
+
+
 function updateCartQuantity() {
   let cartQuantity = 0;
   cart.forEach((cartItem) => {
@@ -125,6 +169,8 @@ function updateCartQuantity() {
 
   });
   document.querySelector('.js-cart-quantity').textContent = cartQuantity;
+
+
 }
 
 document.querySelectorAll('.js-add-to-cart')
@@ -135,6 +181,12 @@ document.querySelectorAll('.js-add-to-cart')
       addToCart(productId);
       updateCartQuantity();
 
+
+      handleAddedToCartTimeOut(productId);
+
+
+
     });
 
   });
+
