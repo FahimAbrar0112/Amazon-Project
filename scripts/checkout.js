@@ -1,4 +1,4 @@
-import { cart, removeFromCart } from '../data/cart.js';
+import { cart, removeFromCart, saveToStorage } from '../data/cart.js';
 import { products } from '../data/products.js';
 
 import { formatCurrency } from './utils/money.js';
@@ -112,4 +112,24 @@ document.querySelectorAll('.js-delete-link').forEach((link) => {
         console.log(container);
 
     });
+});
+
+// CLear Cart Button Functionality:
+document.querySelector('.js-clear-cart').addEventListener('click', () => {
+    cart.forEach((cartItem) => {
+        const productId = cartItem.productId;
+        removeFromCart(productId);
+
+        const container = document.querySelector(`.js-cart-item-container-${productId}`);
+
+        container.remove();
+
+        console.log(container);
+    });
+
+
+
+
+    // cart.length = 0;
+    console.log(cart);
 });
