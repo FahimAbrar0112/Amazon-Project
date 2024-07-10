@@ -23,8 +23,15 @@ import { deliveryOptions } from "../data/deliveryOptions.js"
 // dayjs library : use chatgpt => "dayjs documentation" for more information
 
 
-//  renderOrderSummar() =>  helps to render the whole website without reloading . It updates whenever we change or select in the Choose delivery option.
-// renderOrderSummary() => idea came wehn I tried to make the page reload or respond whenever some changes were made in the Choose delivery option.
+/*
+
+    renderOrderSummar() =>  helps to render the whole website without reloading . It updates whenever we change or select in the Choose delivery option.
+    renderOrderSummary() => idea came wehn I tried to make the page reload or respond whenever some changes were made in the Choose delivery option.
+    this is the concept of "MVC" = model view controller.
+
+
+*/
+
 function renderOrderSummary() {
 
     const today = dayjs();
