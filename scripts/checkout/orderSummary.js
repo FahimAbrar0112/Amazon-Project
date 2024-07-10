@@ -13,8 +13,7 @@ import { formatCurrency } from "../utils/money.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 
 import { deliveryOptions, getDeliveryOption } from "../../data/deliveryOptions.js"
-
-
+import { renderPaymentSummary } from "./paymentSummary.js";
 
 
 // Importing external libraries from internet :
@@ -147,12 +146,13 @@ export function renderOrderSummary() {
 
             container.remove();
             checkoutItemsCount();
+            renderPaymentSummary();
 
             // console.log(container);
         });
     });
 
-   
+
 
 
     // Update Cart Button Functionality :
@@ -203,6 +203,7 @@ export function renderOrderSummary() {
                 quantityLabel.innerHTML = newQuantity;
 
                 checkoutItemsCount();
+                renderPaymentSummary();
             });
         });
 
@@ -262,6 +263,7 @@ export function renderOrderSummary() {
                 // location.reload();
 
                 renderOrderSummary();
+                renderPaymentSummary();
 
             });
 

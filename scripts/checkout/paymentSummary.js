@@ -83,11 +83,14 @@ export function renderPaymentSummary() {
 
             container.remove();
 
-            console.log(container);
+            // console.log(container);
         });
 
 
         document.querySelector(".js-checkout-items-count").textContent = "0 items";
+        
+        renderPaymentSummary();
+
 
         // cart.length = 0;
         // console.log(cart);
