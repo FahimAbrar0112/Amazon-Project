@@ -152,27 +152,7 @@ export function renderOrderSummary() {
         });
     });
 
-    // CLear Cart Button Functionality:
-    document.querySelector(".js-clear-cart").addEventListener("click", () => {
-        cart.forEach((cartItem) => {
-            const productId = cartItem.productId;
-            removeFromCart(productId);
-
-            const container = document.querySelector(
-                `.js-cart-item-container-${productId}`
-            );
-
-            container.remove();
-
-            console.log(container);
-        });
-
-
-        document.querySelector(".js-checkout-items-count").textContent = "0 items";
-
-        // cart.length = 0;
-        console.log(cart);
-    });
+   
 
 
     // Update Cart Button Functionality :

@@ -1,4 +1,4 @@
-import { cart } from "../../data/cart.js";
+import { cart, removeFromCart } from "../../data/cart.js";
 import { getProduct } from "../../data/products.js";
 import { getDeliveryOption } from "../../data/deliveryOptions.js";
 import { formatCurrency } from "../utils/money.js"
@@ -24,7 +24,7 @@ export function renderPaymentSummary() {
 
     const totalCents = totalBeforeTaxCents + taxCents;
 
-    const paymeentSummaryHTML = `
+    const paymentSummaryHTML = `
 
     <div class="payment-summary-title">Order Summary</div>
 
@@ -61,9 +61,36 @@ export function renderPaymentSummary() {
     
     `;
 
-    // document.querySelector('.js-payment-summary')
-    //     .innerHTML = paymeentSummaryHTML;
+    document.querySelector('.js-payment-summary')
+        .innerHTML = paymentSummaryHTML;
 
 
+
+
+
+
+
+    ////////////////////////////////////////////////
+    // CLear Cart Button Functionality:
+    document.querySelector(".js-clear-cart").addEventListener("click", () => {
+        cart.forEach((cartItem) => {
+            const productId = cartItem.productId;
+            removeFromCart(productId);
+
+            const container = document.querySelector(
+                `.js-cart-item-container-${productId}`
+            );
+
+            container.remove();
+
+            console.log(container);
+        });
+
+
+        document.querySelector(".js-checkout-items-count").textContent = "0 items";
+
+        // cart.length = 0;
+        // console.log(cart);
+    });
 }
 
