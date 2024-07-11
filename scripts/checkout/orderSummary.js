@@ -38,10 +38,7 @@ import { renderCheckoutHeader } from './checkoutHeader.js';
 
 export function renderOrderSummary() {
 
-    const today = dayjs();
-    const deliveryDate = today.add(7, 'days');
-    // console.log(deliveryDate);
-    deliveryDate.format('dddd , MMMM D');
+
 
     let cartSummaryHTML = "";
 
@@ -56,13 +53,7 @@ export function renderOrderSummary() {
 
         const deliveryOption = getDeliveryOption(deliveryOptionId);
 
-        const today = dayjs();
-        const deliveryDate = today.add(
-            deliveryOption.deliveryDays,
-            'days'
-        );
-
-        const dateString = deliveryDate.format('dddd, MMMM D');
+        const dateString = calculateDeliveryDate(deliveryOption);
         // this dateString will be used in "<div class="delivery-date">Delivery date: ${dateString}</div>" to update the Delivey Date
 
         cartSummaryHTML += `
@@ -216,13 +207,8 @@ export function renderOrderSummary() {
         let html = '';
 
         deliveryOptions.forEach((deliveryOption) => {
-            const today = dayjs();
-            const deliveryDate = today.add(
-                deliveryOption.deliveryDays,
-                'days'
-            );
-
-            const dateString = deliveryDate.format('dddd, MMMM D');
+           
+            const dateString = calculateDeliveryDate(deliveryOption);
 
 
             const priceString = deliveryOption.priceCents === 0 ? 'FREE' : `$${formatCurrency(deliveryOption.priceCents)} -`;
