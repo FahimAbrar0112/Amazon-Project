@@ -2,8 +2,8 @@ import {
     cart,
     removeFromCart,
     updateQuantity,
-    updateDeliveryOption,
-    checkoutItemsCount
+    updateDeliveryOption
+
 } from "../../data/cart.js";
 
 import {
@@ -13,9 +13,10 @@ import { formatCurrency } from "../utils/money.js";
 
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 
-import { deliveryOptions, getDeliveryOption } from "../../data/deliveryOptions.js"
+import { deliveryOptions, getDeliveryOption, calculateDeliveryDate } from "../../data/deliveryOptions.js"
 import { renderPaymentSummary } from "./paymentSummary.js";
 
+import { renderCheckoutHeader } from './checkoutHeader.js';
 
 // Importing external libraries from internet :
 // import { hello } from "https://unpkg.com/supersimpledev@1.0.1/hello.esm.js"
@@ -122,10 +123,6 @@ export function renderOrderSummary() {
     document.querySelector(".js-order-summary").innerHTML = cartSummaryHTML;
 
 
-    // Checkout items count updating:
-    const totalItems = checkoutItemsCount()
-    document.querySelector(".js-checkout-items-count").textContent = `${totalItems} items`;
-
 
 
     // console.log(cartSummaryHTML);
@@ -147,9 +144,9 @@ export function renderOrderSummary() {
             */
 
 
-            checkoutItemsCount();
             renderOrderSummary();
             renderPaymentSummary();
+            renderCheckoutHeader();
 
             // console.log(container);
         });
@@ -160,6 +157,7 @@ export function renderOrderSummary() {
 
     // Update Cart Button Functionality :
 
+    // Update Button functionality:
     document.querySelectorAll('.js-update-link')
         .forEach((link) => {
             link.addEventListener('click', () => {
@@ -172,7 +170,7 @@ export function renderOrderSummary() {
         });
 
 
-
+    // Save Button Functionality :
     document.querySelectorAll('.js-save-link')
         .forEach((link) => {
             link.addEventListener('click', () => {
@@ -205,8 +203,9 @@ export function renderOrderSummary() {
                 );
                 quantityLabel.innerHTML = newQuantity;
 
-                checkoutItemsCount();
+
                 renderPaymentSummary();
+                renderCheckoutHeader();
             });
         });
 
@@ -267,6 +266,7 @@ export function renderOrderSummary() {
 
                 renderOrderSummary();
                 renderPaymentSummary();
+
 
             });
 

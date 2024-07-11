@@ -1,10 +1,15 @@
-import { cart, 
-        removeFromCart,
-        checkoutItemsCount
-       } from "../../data/cart.js";
+import {
+  cart,
+  removeFromCart,
+  checkoutItemsCount
+} from "../../data/cart.js";
 import { getProduct } from "../../data/products.js";
 import { getDeliveryOption } from "../../data/deliveryOptions.js";
 import { formatCurrency } from "../utils/money.js"
+import { renderOrderSummary } from "./orderSummary.js";
+import { renderCheckoutHeader } from "./checkoutHeader.js";
+
+
 
 export function renderPaymentSummary() {
 
@@ -29,8 +34,8 @@ export function renderPaymentSummary() {
 
 
   // cart Quantity updating: 
-   const  cartQuantity = checkoutItemsCount();
- 
+  const cartQuantity = checkoutItemsCount();
+
   //
 
   const paymentSummaryHTML = `
@@ -86,20 +91,16 @@ export function renderPaymentSummary() {
       const productId = cartItem.productId;
       removeFromCart(productId);
 
-      const container = document.querySelector(
-        `.js-cart-item-container-${productId}`
-      );
 
-      container.remove();
 
       // console.log(container);
     });
 
 
-    document.querySelector(".js-checkout-items-count").textContent = "0 items";
 
+    renderOrderSummary();
     renderPaymentSummary();
-
+    renderCheckoutHeader();
 
     // cart.length = 0;
     // console.log(cart);
