@@ -2,7 +2,8 @@ import {
     cart,
     removeFromCart,
     updateQuantity,
-    updateDeliveryOption
+    updateDeliveryOption,
+    checkoutItemsCount
 } from "../../data/cart.js";
 
 import {
@@ -120,17 +121,12 @@ export function renderOrderSummary() {
     });
     document.querySelector(".js-order-summary").innerHTML = cartSummaryHTML;
 
-    function checkoutItemsCount() {
-        let totalItems = 0;
-        cart.forEach((cartItem) => {
-            totalItems += cartItem.quantity;
-        });
 
-        document.querySelector(".js-checkout-items-count").textContent = `${totalItems} items`;
+    // Checkout items count updating:
+    const totalItems = checkoutItemsCount()
+    document.querySelector(".js-checkout-items-count").textContent = `${totalItems} items`;
 
-    }
 
-    checkoutItemsCount();
 
     // console.log(cartSummaryHTML);
 
@@ -140,12 +136,19 @@ export function renderOrderSummary() {
             removeFromCart(productId);
             // console.log(cart);
 
-            const container = document.querySelector(
-                `.js-cart-item-container-${productId}`
-            );
+            /*
+            
+            
+                const container = document.querySelector(
+                `.js-cart-item-container-${productId}` );
 
-            container.remove();
+                 container.remove();
+            
+            */
+
+
             checkoutItemsCount();
+            renderOrderSummary();
             renderPaymentSummary();
 
             // console.log(container);

@@ -100,3 +100,14 @@ export function updateDeliveryOption(productId, deliveryOptionId) {
 
 
 }
+
+
+export function checkoutItemsCount() {
+    let totalItems = 0;
+    cart.forEach((cartItem) => {
+        totalItems += cartItem.quantity;
+    });
+
+    return totalItems;
+
+}

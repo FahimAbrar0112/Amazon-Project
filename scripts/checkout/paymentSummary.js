@@ -1,35 +1,44 @@
-import { cart, removeFromCart } from "../../data/cart.js";
+import { cart, 
+        removeFromCart,
+        checkoutItemsCount
+       } from "../../data/cart.js";
 import { getProduct } from "../../data/products.js";
 import { getDeliveryOption } from "../../data/deliveryOptions.js";
 import { formatCurrency } from "../utils/money.js"
 
 export function renderPaymentSummary() {
 
-    let productPriceCents = 0;
-    let shippingPriceCents = 0;
+  let productPriceCents = 0;
+  let shippingPriceCents = 0;
 
 
-    cart.forEach((cartItem) => {
+  cart.forEach((cartItem) => {
 
-        const product = getProduct(cartItem.productId);
-        productPriceCents += product.priceCents * cartItem.quantity;
+    const product = getProduct(cartItem.productId);
+    productPriceCents += product.priceCents * cartItem.quantity;
 
-        const deliveryOption = getDeliveryOption(cartItem.deliveryOptionId);
-        shippingPriceCents += deliveryOption.priceCents;
-    });
+    const deliveryOption = getDeliveryOption(cartItem.deliveryOptionId);
+    shippingPriceCents += deliveryOption.priceCents;
+  });
 
-    const totalBeforeTaxCents = productPriceCents + shippingPriceCents;
+  const totalBeforeTaxCents = productPriceCents + shippingPriceCents;
 
-    const taxCents = totalBeforeTaxCents * 0.1; // => 10% tax = 10/100
+  const taxCents = totalBeforeTaxCents * 0.1; // => 10% tax = 10/100
 
-    const totalCents = totalBeforeTaxCents + taxCents;
+  const totalCents = totalBeforeTaxCents + taxCents;
 
-    const paymentSummaryHTML = `
+
+  // cart Quantity updating: 
+   const  cartQuantity = checkoutItemsCount();
+ 
+  //
+
+  const paymentSummaryHTML = `
 
     <div class="payment-summary-title">Order Summary</div>
 
           <div class="payment-summary-row">
-            <div>Items (3):</div>
+            <div>Items (${cartQuantity}):</div>
             <div class="payment-summary-money">$${formatCurrency(productPriceCents)}</div>
           </div>
 
@@ -61,8 +70,8 @@ export function renderPaymentSummary() {
     
     `;
 
-    document.querySelector('.js-payment-summary')
-        .innerHTML = paymentSummaryHTML;
+  document.querySelector('.js-payment-summary')
+    .innerHTML = paymentSummaryHTML;
 
 
 
@@ -70,30 +79,30 @@ export function renderPaymentSummary() {
 
 
 
-    ////////////////////////////////////////////////
-    // CLear Cart Button Functionality:
-    document.querySelector(".js-clear-cart").addEventListener("click", () => {
-        cart.forEach((cartItem) => {
-            const productId = cartItem.productId;
-            removeFromCart(productId);
+  ////////////////////////////////////////////////
+  // CLear Cart Button Functionality:
+  document.querySelector(".js-clear-cart").addEventListener("click", () => {
+    cart.forEach((cartItem) => {
+      const productId = cartItem.productId;
+      removeFromCart(productId);
 
-            const container = document.querySelector(
-                `.js-cart-item-container-${productId}`
-            );
+      const container = document.querySelector(
+        `.js-cart-item-container-${productId}`
+      );
 
-            container.remove();
+      container.remove();
 
-            // console.log(container);
-        });
-
-
-        document.querySelector(".js-checkout-items-count").textContent = "0 items";
-        
-        renderPaymentSummary();
-
-
-        // cart.length = 0;
-        // console.log(cart);
+      // console.log(container);
     });
+
+
+    document.querySelector(".js-checkout-items-count").textContent = "0 items";
+
+    renderPaymentSummary();
+
+
+    // cart.length = 0;
+    // console.log(cart);
+  });
 }
 
