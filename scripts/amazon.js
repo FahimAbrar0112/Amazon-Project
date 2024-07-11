@@ -57,7 +57,7 @@ import { formatCurrency } from './utils/money.js';
 //     }
 // ];
 
-
+//localStorage.clear();
 let productsHTML = '';
 
 
