@@ -1,4 +1,7 @@
-import {formatCurrency} from '../scripts/utils/money.js';
+import { formatCurrency } from '../scripts/utils/money.js';
+
+
+
 
 export function getProduct(productId) {
 
@@ -40,6 +43,11 @@ class Product {
     return `$${formatCurrency(this.priceCents)}`;
   }
 
+  extraInfoHTML() {
+    return '';
+
+  }
+
 }
 
 // const product1 = new Product(
@@ -60,6 +68,25 @@ class Product {
 //   }
 // );
 
+
+class Clothing extends Product {
+  sizeChartLink;
+
+  constructor(productDetails) {
+    super(productDetails);  // super is used to call the constructor of parent class.
+    this.sizeChartLink = productDetails.sizeChartLink;
+  }
+
+  // override extraInfoHTML method of parent class.
+  extraInfoHTML() {
+    // super.extraInfoHTML();  // super is used to call the extraInfoHTML() method of parent class.
+    return `
+      <a href="${this.sizeChartLink}" target="_blank">
+        Size chart
+      </a>
+    `;
+  }
+}
 
 
 export const products = [
@@ -722,8 +749,8 @@ export const products = [
     ]
   }
 ].map((productDetails) => {
-
+  if (productDetails.type === 'clothing') {
+    return new Clothing(productDetails);
+  }
   return new Product(productDetails);
-
 });
- 
